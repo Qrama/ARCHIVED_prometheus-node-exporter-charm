@@ -1,0 +1,5 @@
+includes: ['layer:basic', 'layer:apt', 'interface:juju-info', 'interface:http']
+repo: git@github.com:Qrama/prometheus-node-exporter-charm.git
+options:
+  apt:
+    packages: ['prometheus-node-exporter']
