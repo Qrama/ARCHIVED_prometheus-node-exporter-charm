@@ -32,6 +32,7 @@ def config(prometheus):
     status_set('active', 'Sending info to Prometheus')
 
 
-@when('monitoring.removed', 'node-exporter.installed')
-def remove_controller(monitoring):
+@when('prometheus.removed', 'node-exporter.installed')
+def remove_controller(prometheus):
     close_port(9100)
+    status_set('blocked', 'Waiting for relation with Prometheus')
