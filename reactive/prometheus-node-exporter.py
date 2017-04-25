@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # pylint: disable=c0111,c0301,c0325,w0406
+from os import mkdir
 from subprocess import check_call
 import tarfile
 from charms.reactive import when, when_not, set_state
@@ -24,8 +25,14 @@ from charmhelpers.core.templating import render
 
 @when_not('node-exporter.installed')
 def install():
-    tfile = tarfile.open(resource_get('node-exporter'), 'r')
     filesdir = '{}/files'.format(charm_dir())
+    mkdir(filesdir)
+    # tfile = tarfile.open(resource_get('node-exporter'), 'r')
+    tarfiledir = '{}/node_exporter-0.14.0.linux-amd64.tar.gz'.format(filesdir)
+    check_call(['wget',
+                'https://github.com/prometheus/node_exporter/releases/download/v0.14.0/node_exporter-0.14.0.linux-amd64.tar.gz',
+                '-O', tarfiledir])
+    tfile = tarfile.open(tarfiledir)
     tfile.extractall(filesdir)
     check_call(['ln', '-s', '{}/node_exporter-0.14.0.linux-amd64/node_exporter'.format(filesdir), '/usr/bin'])
     render('node_exporter.conf', '/etc/init/node_exporter.conf', context={})
