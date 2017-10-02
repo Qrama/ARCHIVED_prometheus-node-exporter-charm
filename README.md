@@ -1,3 +1,5 @@
+# ARCHIVED!
+
 # Introduction
 This is a subordinate charm, which install the [Prometheus node-exporter](https://github.com/prometheus/node_exporter) on all the machines of an application to collect machine info and sends it to a Prometheus server.
 
